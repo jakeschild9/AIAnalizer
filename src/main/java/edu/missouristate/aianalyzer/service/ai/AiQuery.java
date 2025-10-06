@@ -1,4 +1,4 @@
-package edu.missouristate.aianalizer.service;
+package edu.missouristate.aianalyzer.service.ai;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * It provides various methods to get different types of analysis on file content.
  */
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor // <- From LomBok
 public class AiQuery {
     private final Client client;
 

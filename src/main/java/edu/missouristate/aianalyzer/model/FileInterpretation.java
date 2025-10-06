@@ -1,4 +1,4 @@
-package edu.missouristate.aianalizer.model;
+package edu.missouristate.aianalyzer.model;
 
 // Class to hold AI results
 public class FileInterpretation {

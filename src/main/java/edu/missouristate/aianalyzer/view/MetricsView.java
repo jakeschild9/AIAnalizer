@@ -1,4 +1,4 @@
-package edu.missouristate.aianalizer.view;
+package edu.missouristate.aianalyzer.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

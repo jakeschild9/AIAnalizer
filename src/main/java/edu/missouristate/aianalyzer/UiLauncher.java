@@ -1,12 +1,11 @@
-package edu.missouristate.aianalizer;
+package edu.missouristate.aianalyzer;
 
-import edu.missouristate.aianalizer.view.DriveView;
-import edu.missouristate.aianalizer.view.MetricsView;
-import edu.missouristate.aianalizer.view.SuggestionsView;
-import edu.missouristate.aianalizer.view.SettingsView;
+import edu.missouristate.aianalyzer.view.DriveView;
+import edu.missouristate.aianalyzer.view.MetricsView;
+import edu.missouristate.aianalyzer.view.SuggestionsView;
+import edu.missouristate.aianalyzer.view.SettingsView;
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,7 +16,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;

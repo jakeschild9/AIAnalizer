@@ -2,8 +2,9 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-src/test
+src/test/java/edu/missouristate/aianalyzer
 env.properties
+aianalyzer.db
 
 ### STS ###
 .apt_generated
