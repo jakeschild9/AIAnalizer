@@ -18,7 +18,7 @@ Project Structure
 -----------------
 ### Collapsed View
 <details>
-<summary>Click to view the expanded project structure</summary>
+<summary>Click to view the collapsed project structure</summary>
 
 ```
 src/main/
