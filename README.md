@@ -29,10 +29,9 @@ src/main/
 ├── java/
 │   └── edu.missouristate.aianalyzer/
 │       ├── config/
-│       │   └── AiClient.java
+│       │   └── ...
 │       ├── controller/
 │       ├── model/
-│       │   ├── database/
 │       │   └── ...
 │       ├── repository/
 │       │   └── ...
