@@ -1,6 +1,6 @@
 Initial Setup: How to Get and Configure a GEMINI API Key
 ==========================================================
-1. Visit https://aistudio.google.com/prompts/ to generate an API key (it's free and no billing required).
+1. Visit https://aistudio.google.com/app/apikey to generate an API key (it's free and no billing required).
 
 2. Create an `env.properties` file in the project's root directory (the same level as `pom.xml`).
 
