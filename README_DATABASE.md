@@ -67,7 +67,7 @@ To help understand the recent merge and refactor, below is a direct mapping of t
     * **Improvement:** Spring Data JPA writes the SQL for us, which is safer and cleaner.
 
 * *Initial File System Scan (The "Producer"):*
-    * **Old:** `ActiveScanner.java`, `FsIndexer.java`
+    * **Old:** `ActiveScanner.java`, `FsIndexer.java`, `PassiveScanner.java`
     * **New:** [`ActiveScanService.java`](src/main/java/edu/missouristate/aianalyzer/service/database/ActiveScanService.java) (for full scans) and [`PassiveScanService.java`](src/main/java/edu/missouristate/aianalyzer/service/database/PassiveScanService.java) (for real-time monitoring).
     * **Improvement:** The logic is now in focused Spring `@Service` beans, making it easier to manage and test.
 
