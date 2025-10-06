@@ -1,0 +1,18 @@
+.root {
+    -fx-background-color: -fx-primary-bg;
+
+    /* --- Variable Definitions --- */
+    -fx-primary-bg: #1F1112;                /* Main application background */
+    -fx-secondary-bg: derive(#1F1112, 25%);  /* Background for content panels and text fields */
+    -fx-primary-text: #FAFAFA;               /* Main text color */
+    -fx-secondary-text: #B0BEC5;             /* Muted text color */
+    -fx-accent-color: #FF5252;               /* Color for buttons and highlights */
+    -fx-border-color: #FF5252;               /* Color for borders */
+    -fx-view-bg: derive(#1F1112, 25%);       /* Background for specific views like the drive tree panel */
+    -fx-card-text-color: white;              /* Text color for colored category cards */
+}
+.label { -fx-text-fill: -fx-primary-text; }
+.button { -fx-background-color: -fx-accent-color; -fx-text-fill: -fx-primary-bg; -fx-font-weight: bold; }
+.button:hover { -fx-background-color: derive(-fx-accent-color, -10%); }
+.text-field { -fx-background-color: -fx-secondary-bg; -fx-text-fill: -fx-primary-text; -fx-border-color: -fx-border-color; -fx-border-radius: 3; }
+.drive-tree-panel { -fx-background-color: -fx-view-bg; }
