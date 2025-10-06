@@ -2,6 +2,9 @@
 
 This is a CSC450 project that can analyze your files and leverages AI to explain your files. It will give reports of suspicious, junk, and safe files. AiAnalyzer is a Java and Spring Boot application designed to analyze and process files using AI-powered techniques. The goal is to provide insights into local files, detect patterns, and support further data-driven decisions.
 
+### Definitions
+- Active Scan: High-resource, rapid, user-initiated scan of a specific area.
+- Passive Scan: Low-resource, background scan that runs when the application is idle.
 
 Getting Started & Setup
 -----------------------

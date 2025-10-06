@@ -44,8 +44,36 @@ You should now have a working connection to the database.
 Note: You may need to right-click the aianalyzer.db and click Refresh to see the populated tables. MAKE SURE the application is not running when you click refresh.
 
 
+Core Database Workflow
+----------------------
+Our backend uses a "producer-consumer" pattern with the database acting as the queue. Here is the step-by-step lifecycle of how a file gets scanned, processed, and stored.
 
-# IMPORTANT CHANGES
+1.  **Production (Adding a Task to the Queue):** This process is started by either the [`ActiveScanService`](src/main/java/edu/missouristate/aianalyzer/service/database/ActiveScanService.java) or the [`PassiveScanService`](src/main/java/edu/missouristate/aianalyzer/service/database/PassiveScanService.java). When a file is discovered, a [`ScanQueueItem`](src/main/java/edu/missouristate/aianalyzer/model/database/ScanQueueItem.java) object is created and saved to the `scan_queue` table using the [`ScanQueueItemRepository`](src/main/java/edu/missouristate/aianalyzer/repository/database/ScanQueueItemRepository.java).
+
+2.  **Consumption (Grabbing a Task):** The [`FileProcessingService`](src/main/java/edu/missouristate/aianalyzer/service/database/FileProcessingService.java) runs in the background. It calls the [`ScanQueueItemRepository`](src/main/java/edu/missouristate/aianalyzer/repository/database/ScanQueueItemRepository.java) to fetch a batch of items from the queue that are ready to be processed.
+
+3.  **Processing (Doing the Work):** For each item, the [`FileProcessingService`](src/main/java/edu/missouristate/aianalyzer/service/database/FileProcessingService.java) reads the file's metadata from the disk (size, date, etc.).
+
+4.  **Storage (Saving the Final Result):** The service then creates a new [`FileRecord`](src/main/java/edu/missouristate/aianalyzer/model/database/FileRecord.java) object with this metadata and saves it to the main `files` table using the [`FileRecordRepository`](src/main/java/edu/missouristate/aianalyzer/repository/database/FileRecordRepository.java).
+
+5.  **Cleanup (Removing the Task):** After the file is successfully processed, the [`FileProcessingService`](src/main/java/edu/missouristate/aianalyzer/service/database/FileProcessingService.java) deletes the original `ScanQueueItem` from the queue table.
+
+
+Important File Locations
+----------------------------
+These are the main files for database development:
+
+* [`application.properties`](src/main/resources/application.properties): Contains the SQLite database connection URL and Hibernate settings (`ddl-auto`).
+* [`model/database/`](src/main/java/edu/missouristate/aianalyzer/model/database/): This package contains all JPA Entity classes (like `FileRecord`). Each class here defines a table in the database schema.
+* [`repository/database/`](src/main/java/edu/missouristate/aianalyzer/repository/database/): This package contains all Spring Data JPA interfaces (like `FileRecordRepository`). These provide the methods to perform database operations (Create, Read, Update, Delete).
+* [`ActiveScanService.java`](src/main/java/edu/missouristate/aianalyzer/service/database/ActiveScanService.java): The "producer" service for on-demand, full directory scans.
+* [`PassiveScanService.java`](src/main/java/edu/missouristate/aianalyzer/service/database/PassiveScanService.java): The "producer" service for background, real-time file monitoring.
+* [`FileProcessingService.java`](src/main/java/edu/missouristate/aianalyzer/service/database/FileProcessingService.java): The "consumer" service that processes items from the queue and saves final records.
+
+
+
+
+# IMPORTANT CHANGES (Historical Context)
 
 -----------------------------------
 
@@ -80,8 +108,3 @@ To help understand the recent merge and refactor, below is a direct mapping of t
     * **Old:** `LabelService.java`
     * **New:** The new Spring-based [`LabelService.java`](src/main/java/edu/missouristate/aianalyzer/service/database/LabelService.java)
     * **Improvement:** The new service uses the repository pattern, removing all manual SQL.
-
-## Important File Locations
-
-* **Active Scan:** [`service/database/ActiveScanService.java`](src/main/java/edu/missouristate/aianalyzer/service/database/ActiveScanService.java)
-* **Passive Scan:** [`service/database/PassiveScanService.java`](src/main/java/edu/missouristate/aianalyzer/service/database/PassiveScanService.java)
