@@ -1,13 +1,15 @@
-package edu.missouristate.aianalizer.config;
+package edu.missouristate.aianalyzer.config;
 
 import com.google.genai.Client;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 /**
  * Spring configuration class responsible for creating and providing the Gemini AI client
  * as a managed bean in the application context.
  */
+@Lazy
 @Configuration
 public class AiClient {
     /**

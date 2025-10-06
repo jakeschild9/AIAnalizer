@@ -1,6 +1,6 @@
-package edu.missouristate.aianalizer.view;
+package edu.missouristate.aianalyzer.view;
 
-import edu.missouristate.aianalizer.UiLauncher;
+import edu.missouristate.aianalyzer.UiLauncher;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
