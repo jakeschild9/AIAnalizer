@@ -5,11 +5,21 @@ import com.google.genai.types.GenerateContentResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service responsible for making API calls to the Google Gemini AI model.
+ * It provides various methods to get different types of analysis on file content.
+ */
 @Service
 @RequiredArgsConstructor
 public class AiQuery {
     private final Client client;
 
+    /**
+     * Sends the entire file content to the AI for a "PASSIVE" analysis.
+     * The AI will classify the file as Malicious, Suspicious, or Safe and provide a reason if not safe.
+     * @param file The complete content of the file as a string.
+     * @return The AI's classification and optional reasoning, separated by a '%'.
+     */
     public String passiveResponseFromFile(String file) {
         GenerateContentResponse response =
                 client.models.generateContent(
@@ -22,6 +32,12 @@ public class AiQuery {
         return response.text();
     }
 
+    /**
+     * Sends the entire file content to the AI for an "ACTIVE" analysis.
+     * The AI will provide a summary of the document and a security classification.
+     * @param file The complete content of the file as a string.
+     * @return The AI's classification and summary, separated by a '%'.
+     */
     public String activeResponseFromFile(String file) {
         GenerateContentResponse response =
                 client.models.generateContent(
@@ -33,6 +49,12 @@ public class AiQuery {
         return response.text();
     }
 
+    /**
+     * Sends a chunk of a large file to the AI for a quick security classification.
+     * This is optimized for speed, requesting only a one-word response.
+     * @param chunk A string representing a portion of a large file.
+     * @return A one-word classification: "Malicious", "Suspicious", or "Safe".
+     */
     public String responseForLargeFileChunks(String chunk) {
         GenerateContentResponse response =
                 client.models.generateContent(
@@ -43,6 +65,12 @@ public class AiQuery {
         return response.text();
     }
 
+    /**
+     * Sends file content to the AI to get a descriptive summary.
+     * This is used for generating descriptions for both active searches and for non-safe files.
+     * @param file A string representing the content or a chunk of a file.
+     * @return A single sentence summarizing the file's main point.
+     */
     public String respondWithFileDescription(String file) {
         GenerateContentResponse response =
                 client.models.generateContent(
