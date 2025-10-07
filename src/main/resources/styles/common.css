@@ -1,0 +1,95 @@
+/* ===================================================================
+ * common.css
+ *
+ * This file contains styles that are shared across all themes.
+ * It defines the structure and layout of components, while the
+ * theme-specific files (e.g., light-theme.css) define the colors.
+ * =================================================================== */
+
+
+/* ===================================================================
+ * DRIVE VIEW STYLES
+ * =================================================================== */
+
+/* --- Main Layout --- */
+
+/* Makes the main SplitPane container transparent so the root background shows through. */
+.drive-split-view {
+    -fx-background-color: transparent;
+}
+
+/* --- Tree View (Left Panel) --- */
+
+/* Makes the TreeView itself transparent to show the panel color behind it. */
+.tree-view {
+    -fx-background-color: transparent;
+}
+
+/* Styles the text for each item in the tree. */
+.tree-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-primary-text;
+    -fx-padding: 4px;
+}
+
+/* Styles the item when it is selected. */
+.tree-cell:selected {
+    -fx-background-color: -fx-accent-color;
+    -fx-text-fill: white;
+}
+
+/* --- Category Cards (Right Panel) --- */
+
+/* Generic styles for all category cards. */
+.category-card {
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-cursor: hand;
+}
+
+.card-title {
+    -fx-font-weight: 800;
+    -fx-font-size: 16px;
+    -fx-text-fill: -fx-card-text-color;
+}
+
+.card-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: -fx-card-text-color;
+    -fx-opacity: 0.8;
+}
+
+/* Specific background colors for each category. */
+.category-photos { -fx-background-color: #4A90E2; }
+.category-videos { -fx-background-color: #2ecc71; }
+.category-archives { -fx-background-color: #f1c40f; }
+.category-documents { -fx-background-color: #9b59b6; }
+.category-duplicated { -fx-background-color: #e74c3c; }
+.category-unused { -fx-background-color: #34495e; }
+.category-system { -fx-background-color: #7f8c8d; }
+.category-games { -fx-background-color: #e67e22; }
+.category-temp, .category-cache { -fx-background-color: #1abc9c; } /* Combined rule */
+.category-unclassified { -fx-background-color: #bdc3c7; }
+
+
+/* ===================================================================
+ * SETTINGS VIEW STYLES
+ * =================================================================== */
+
+/* Styles for the theme selector cards. */
+.theme-card {
+    -fx-padding: 8;
+    -fx-border-color: transparent;
+    -fx-border-width: 2;
+    -fx-border-radius: 10px;
+    -fx-cursor: hand;
+}
+
+.theme-card:hover {
+    -fx-border-color: -fx-accent-color;
+}
+
+.theme-card-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-text;
+}
