@@ -1,4 +1,4 @@
-package edu.missouristate.aianalizer.service;
+package edu.missouristate.aianalyzer.service.ai;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;

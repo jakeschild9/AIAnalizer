@@ -1,6 +1,7 @@
-package edu.missouristate.aianalizer.service;
+package edu.missouristate.aianalyzer.service.ai;
 
-import edu.missouristate.aianalizer.model.FileInterpretation;
+
+import edu.missouristate.aianalyzer.model.FileInterpretation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
