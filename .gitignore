@@ -1,25 +1,46 @@
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-src/test/java/edu/missouristate/aianalyzer
+# ===================================================================
+# Files and Directories to Ignore
+# ===================================================================
+
+# Compiled Java class files and build outputs
+# The /target/ directory is where Maven places all compiled code and packages.
+/target/
+/build/
+
+# Local configuration files that should not be committed.
+# These could contain sensitive data or local database paths.
 env.properties
 aianalyzer.db
 
-### STS ###
+# Maven Wrapper JAR - This is a binary and should be downloaded, not committed.
+.mvn/wrapper/maven-wrapper.jar
+
+# Log files
+*.log
+*.log.*
+
+# ===================================================================
+# IDE and Editor-Specific Files
+# These are user-specific settings and should not be shared.
+# ===================================================================
+
+### IntelliJ IDEA ###
+.idea/
+*.iml
+*.iws
+*.ipr
+
+### Visual Studio Code ###
+.vscode/
+
+### Spring Tool Suite (STS) / Eclipse ###
 .apt_generated
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+.sts4-cache/
 
 ### NetBeans ###
 /nbproject/private/
@@ -27,9 +48,3 @@ aianalyzer.db
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/

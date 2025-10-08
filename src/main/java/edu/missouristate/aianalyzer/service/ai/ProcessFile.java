@@ -3,6 +3,7 @@ package edu.missouristate.aianalyzer.service.ai;
 
 import edu.missouristate.aianalyzer.model.FileInterpretation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -26,6 +27,7 @@ public class ProcessFile {
     static final long maxFileSize = 5 * 1024 * 1024;
     //Size of each chunk for large files (1MB)
     static final long chunkSize = 1024 * 1024;
+    private final InitializingBean classPathFileSystemWatcher;
 
     /**
      * Determines whether to process the file as small or large based on its size and gets the AI response.
@@ -36,6 +38,7 @@ public class ProcessFile {
      * @return The AI's response as a String, or an error message.
      * @throws IOException If an error occurs during file processing.
      */
+//    TODO: Gather the fileSize with a helper method
     public String processFileAIResponse(Path filePath, String fileType, long fileSize, FileInterpretation.SearchType searchType) throws IOException  {
         if (!Files.exists(filePath)) {
             return "File does not exist: " + filePath;
