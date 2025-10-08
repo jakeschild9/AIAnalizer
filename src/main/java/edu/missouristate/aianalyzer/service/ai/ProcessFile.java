@@ -21,8 +21,12 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class ProcessFile {
+    //AI query service
     private final AiQuery AiQuery;
+    //File reading service
     private final ReadFile ReadFile;
+    //Size of file
+    static long fileSize;
     //Max file size before entering into chunk analysis (5MB)
     static final long maxFileSize = 5 * 1024 * 1024;
     //Size of each chunk for large files (1MB)
@@ -33,17 +37,15 @@ public class ProcessFile {
      * Determines whether to process the file as small or large based on its size and gets the AI response.
      * @param filePath The path to the file to be processed.
      * @param fileType The type of file being processed.
-     * @param fileSize The size of the file in bytes.
      * @param searchType The type of AI analysis to perform (ACTIVE or PASSIVE).
      * @return The AI's response as a String, or an error message.
      * @throws IOException If an error occurs during file processing.
      */
-//    TODO: Gather the fileSize with a helper method
-    public String processFileAIResponse(Path filePath, String fileType, long fileSize, FileInterpretation.SearchType searchType) throws IOException  {
+    public String processFileAIResponse(Path filePath, String fileType, FileInterpretation.SearchType searchType) throws IOException  {
         if (!Files.exists(filePath)) {
             return "File does not exist: " + filePath;
         }
-
+        fileSize = filePath.toFile().length();
         try {
             if (fileSize <= maxFileSize) {
                 return processSmallFileAIResponse(filePath, fileType, searchType);

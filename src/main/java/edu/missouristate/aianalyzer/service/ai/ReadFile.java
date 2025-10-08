@@ -13,7 +13,9 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -41,6 +43,7 @@ public class ReadFile {
             case "xls", "xlsx" -> getExcelDataAsString(String.valueOf(filePath));
             case "ppt", "pptx" -> getPptDataAsString(path);
             case "pdf" -> readPdfAsString(path);
+            case "sql" -> readSqlAsString(filePath);
             default -> throw new IOException("Unsupported file type: " + fileType);
         };
     }
@@ -187,5 +190,24 @@ public class ReadFile {
             PDFTextStripper stripper = new PDFTextStripper();
             return stripper.getText(document);
         }
+    }
+
+    /**
+     * Reads an SQL file and returns its full contents as a string.
+     * Uses a buffered reader to read the file line by line and preserve formatting.
+     *
+     * @param filePath the path to the SQL file
+     * @return the complete SQL script as a string
+     * @throws IOException if the file cannot be opened or read
+     */
+    public static String readSqlAsString(Path filePath) throws IOException {
+        StringBuilder sqlContent = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(filePath)))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sqlContent.append(line).append("\n");
+            }
+        }
+        return sqlContent.toString();
     }
 }
