@@ -31,7 +31,7 @@ public class ProcessFile {
     static final long maxFileSize = 5 * 1024 * 1024;
     //Size of each chunk for large files (1MB)
     static final long chunkSize = 1024 * 1024;
-    private final InitializingBean classPathFileSystemWatcher;
+//    private final InitializingBean classPathFileSystemWatcher;
 
     /**
      * Determines whether to process the file as small or large based on its size and gets the AI response.

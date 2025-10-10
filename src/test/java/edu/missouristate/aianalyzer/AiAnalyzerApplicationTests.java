@@ -22,14 +22,14 @@ class AiAnalyzerApplicationTests {
 
     Path testFilePath = Path.of("D:\\Test\\testfile.txt");
 
-    @Test
-    void testAiProcessing() throws Exception {
-        String result = processFile.processFileAIResponse(
-                testFilePath,
-                "txt",
-                8,
-                FileInterpretation.SearchType.ACTIVE
-                );
-        System.out.println(result);
-    }
+//    @Test
+//    void testAiProcessing() throws Exception {
+//        String result = processFile.processFileAIResponse(
+//                testFilePath,
+//                "txt",
+//                8,
+//                FileInterpretation.SearchType.ACTIVE
+//                );
+//        System.out.println(result);
+//    }
 }

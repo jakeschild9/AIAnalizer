@@ -157,7 +157,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>edu.missouristate.aianalyzer.UiLauncher</mainClass>
+                    <mainClass>edu.missouristate.aianalyzer.ui.JavaFxApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>

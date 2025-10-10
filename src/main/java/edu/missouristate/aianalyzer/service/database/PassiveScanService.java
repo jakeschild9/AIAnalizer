@@ -6,6 +6,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 
 /**
  * A background service that passively monitors the file system for changes.
@@ -60,10 +62,20 @@ public class PassiveScanService {
                     registerAll(root);
                 }
             }
-            startMonitoring(); // Kick off the background monitoring task.
+
+//            startMonitoring(); // Kick off the background monitoring task.
         } catch (IOException e) {
             System.err.println("Error initializing PassiveScanService: " + e.getMessage());
         }
+    }
+
+    /**
+     * NEW METHOD: This listener will trigger AFTER the application is fully started.
+     * This is the safe place to start our background blocking task.
+     */
+    @EventListener(ApplicationReadyEvent.class)
+    public void onApplicationReady() {
+//        startMonitoring();
     }
 
     /**

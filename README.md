@@ -1,181 +1,179 @@
-# AiAnalyzer
-
-This is a CSC450 project that can analyze your files and leverages AI to explain your files. It will give reports of suspicious, junk, and safe files. AiAnalyzer is a Java and Spring Boot application designed to analyze and process files using AI-powered techniques. The goal is to provide insights into local files, detect patterns, and support further data-driven decisions.
-
 <p align="center">
-  <img src="img.png" alt="AiAnalyzer Screenshot" width="600">
+  <img src="README_images/logo.png" alt="AiAnalyzer Logo" width="120">
 </p>
 
-### Definitions
-- Active Scan: High-resource, rapid, user-initiated scan of a specific area.
-- Passive Scan: Low-resource, background scan that runs when the application is idle.
+<h1 align="center">AiAnalyzer</h1>
 
-Getting Started & Setup
------------------------
-
-Before running the application for the first time, you *must* configure your local environment. This includes setting up your Gemini API key and ensuring IntelliJ is configured to connect to the database for testing.
-
-**>> Please follow the complete setup instructions in the [README_DATABASE.md](README_DATABASE.md) file.**
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-17-blue?logo=java&logoColor=white" />
+  <img src="https://img.shields.io/badge/Spring%20Boot-3.5.5-brightgreen?logo=springboot&logoColor=white" />
+  <img src="https://img.shields.io/badge/JavaFX-21-orange?logo=openjdk&logoColor=white" />
+  <img src="https://img.shields.io/badge/SQLite-Database-blue?logo=sqlite&logoColor=white" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow?logo=open-source-initiative&logoColor=white" />
 
 
-Project Structure
------------------
-### Collapsed View
+<hr style="border: 0.5px solid #ccc; margin: 20px 0;">
+
+
+<p align="center">
+  <b>AI-powered file analysis tool</b><br>
+  Analyze, classify, and interpret local files using Spring Boot + JavaFX + Google Gemini.
+</p>
+
+<p align="center">
+  <img src="README_images/img_2.png" alt="AiAnalyzer Screenshot" width="600"><br>
+  <em>Main Dashboard Interface</em>
+</p>
+
+
+<p align="center">
+  <a href="#getting-started--setup">Getting Started</a> •
+  <a href="#project-structure">Project Structure</a> •
+  <a href="#technology-stack">Tech Stack</a> •
+  <a href="#contributors">Contributors</a>
+</p>
+
+## Key Features
+<table>
+<tr><td>
+
+- **File System Scanning:** Performs both high-speed active scans and low-impact passive monitoring.
+- **AI-Powered Classification:** Uses the Gemini AI model to classify files as safe, suspicious, or junk.
+
+</td><td>
+
+- **Desktop GUI:** Clean, intuitive desktop interface built with JavaFX.
+- **Detailed Reporting:** Provides insight into file categories, duplicates, and disk usage.
+
+</td></tr> </table>
+
+
+## Getting Started & Setup
+First-time setup is required. You must configure your Gemini API key and connect IntelliJ to the database.
+
+**>> See [README_AI.md](README_AI.md) and [README_DATABASE.md](README_DATABASE.md) for full setup instructions.**
+
+
+## Project Structure
 <details>
 <summary>Click to view the collapsed project structure</summary>
 
 ```
 src/main/
 ├── java/
-│   └── edu.missouristate.aianalyzer/
-│       ├── config/
-│       │   └── ...
-│       ├── controller/
-│       ├── model/
-│       │   └── ...
-│       ├── repository/
-│       │   └── ...
-│       ├── service/
-│       │   └── ...
-│       ├── view/
-│       │   └── ... 
-│       ├── AiAnalyzerApplication.java
-│       └── UiLauncher.java
+│   └── edu/missouristate/aianalyzer/
+│       ├── AiAnalyzerApplication.java    <- [Entry Point]
+│       ├── config/                       <- Holds Spring @Configuration beans for setup.
+│       ├── model/                        <- Defines data structures and database tables (@Entity classes).
+│       ├── repository/                   <- Handles database queries (e.g., find, save, delete).
+│       ├── service/                      <- Contains the core backend business logic.
+│       └── ui/                           <- Contains all frontend JavaFX code.
 └── resources/
-    └── application.properties
+    └── application.properties            <- Spring Boot configuration for the database, etc.
 ```
 
 </details>
 
-
-### Expanded View
 <details>
 <summary>Click to view the expanded project structure</summary>
 
 ```
 src/main/
-├── java/
-│   └── edu.missouristate.aianalyzer/
-│       ├── config/
-│       │   └── AiClient.java
-│       ├── controller/
-│       ├── model/
-│       │   ├── database/
-│       │   │   ├── FileRecord.java
-│       │   │   ├── ImageMeta.java
-│       │   │   ├── LabelHistory.java
-│       │   │   └── ScanQueueItem.java
-│       │   └── FileInterpretation.java
-│       ├── repository/
-│       │   └── database/
-│       │       ├── FileRecordRepository.java
-│       │       ├── ImageMetaRepository.java
-│       │       ├── LabelHistoryRepository.java
-│       │       └── ScanQueueItemRepository.java
-│       ├── service/
-│       │   ├── ai/
-│       │   │   ├── AiQuery.java
-│       │   │   └── ProcessFile.java
-│       │   └── database/
-│       │       ├── ActiveScanService.java
-│       │       ├── FileProcessingService.java
-│       │       ├── LabelService.java
-│       │       └── PassiveScanService.java
-│       ├── view/
-│       │   ├── DriveView.java
-│       │   ├── MetricsView.java
-│       │   ├── SettingsView.java
-│       │   └── SuggestionsView.java
-│       ├── AiAnalyzerApplication.java
-│       └── UiLauncher.java
-└── resources/
-    └── application.properties
+└── java/
+    └── edu/missouristate/aianalyzer/
+        ├── AiAnalyzerApplication.java           <- The main entry point; its main() method starts the entire application.
+        ├── config/
+        │   └── AiClient.java                    <- Sets up the connection to the Google Gemini AI service.
+        ├── model/
+        │   ├── database/
+        │   │   ├── FileRecord.java              <- The main table; stores final metadata for a scanned file.
+        │   │   ├── ImageMeta.java               <- Stores special metadata extracted only from image files.
+        │   │   ├── LabelHistory.java            <- Tracks the history of AI classifications for a file over time.
+        │   │   └── ScanQueueItem.java           <- A temporary task in the queue; a file waiting to be processed.
+        │   └── FileInterpretation.java          <- A data class that defines the type of AI analysis to perform.
+        ├── repository/
+        │   └── database/
+        │       ├── FileRecordRepository.java    <- Provides methods to query the files table.
+        │       ├── ImageMetaRepository.java     <- Provides methods to query the image_meta table.
+        │       ├── LabelHistoryRepository.java  <- Provides methods to query the label_history table.
+        │       └── ScanQueueItemRepository.java <- Provides methods to query the scan_queue table.
+        ├── service/
+        │   ├── ai/
+        │   │   ├── AiQuery.java                 <- Contains the actual text prompts that are sent to the Gemini AI.
+        │   │   └── ProcessFile.java             <- Reads files (handling large ones) and uses AiQuery to get an analysis.
+        │   └── database/
+        │       ├── ActiveScanService.java       <- "Producer" that adds files to the queue from a user-initiated scan.
+        │       ├── FileProcessingService.java   <- "Consumer" that processes items from the queue.
+        │       ├── LabelService.java            <- Parses the AI's response and applies the classification label to a file.
+        │       └── PassiveScanService.java      <- "Producer" that adds files to the queue by monitoring the filesystem.
+        └── ui/
+            ├── event/
+            │   └── StageReadyEvent.java         <- A signal fired when the UI is ready to be built.
+            ├── service/
+            │   └── ThemeService.java            <- Handles applying and changing CSS themes.
+            ├── view/
+            │   ├── DriveView.java               <- The main screen for browsing drives and file categories.
+            │   ├── MetricsView.java             <- The screen for displaying statistics about scanned files.
+            │   ├── SettingsView.java            <- The screen for changing application settings, like the theme.
+            │   └── SuggestionsView.java         <- The screen for showing AI-powered suggestions.
+            ├── JavaFxApplication.java           <- The entry point for the JavaFX UI; it starts Spring and manages the UI lifecycle.
+            └── StageInitializer.java            <- Builds the main application window once Spring and JavaFX are ready.
 ```
 
 </details>
 
-*A Brief Explanation of Each Part:*
+<div align="center">
 
-* [resources/application.properties](src/main/resources/application.properties): This is the configuration file for Spring Boot that controls settings for the database connection.
-* [config](src/main/java/edu/missouristate/aianalyzer/config): Contains Spring Configuration beans. `AiClient` is responsible for setting up the connection to the Google AI service.
-* [controller](src/main/java/edu/missouristate/aianalyzer/controller): Intended for handling web/API requests if the application were to have a web interface.
-* [model](src/main/java/edu/missouristate/aianalyzer/model): Contains the data structures and JPA Entities (like `FileRecord`). These classes define the structure of our database tables.
-* [repository](src/main/java/edu/missouristate/aianalyzer/repository): The data access layer. These are Spring Data JPA interfaces that provide methods for interacting with the database.
-* [service](src/main/java/edu/missouristate/aianalyzer/service): Contains the core business logic, orchestrating operations like scanning files and querying the AI.
-* [view](src/main/java/edu/missouristate/aianalyzer/view): Contains the JavaFX UI components and controllers for the front-end.
-* [AiAnalyzerApplication.java](src/main/java/edu/missouristate/aianalyzer/AiAnalyzerApplication.java): The main entry point for the Spring Boot backend application.
-* [UiLauncher.java](src/main/java/edu/missouristate/aianalyzer/UiLauncher.java): The main entry point for launching the JavaFX user interface.
+### Role-Based File Guide
 
+| AI Development | Database Development | UI/Frontend Development |
+| :---: | :---: | :---: |
+| [`service/ai`](src/main/java/edu/missouristate/aianalyzer/service/ai) | [`model/database`](src/main/java/edu/missouristate/aianalyzer/model/database) | [`ui/JavaFxApplication.java`](src/main/java/edu/missouristate/aianalyzer/ui/JavaFxApplication.java) |
+| | [`repository/database`](src/main/java/edu/missouristate/aianalyzer/repository/database) | [`ui/StageInitializer.java`](src/main/java/edu/missouristate/aianalyzer/ui/StageInitializer.java) |
+| | [`service/database`](src/main/java/edu/missouristate/aianalyzer/service/database) | [`ui/view/`](src/main/java/edu/missouristate/aianalyzer/ui/view) |
+| | | [`ui/service/`](src/main/java/edu/missouristate/aianalyzer/ui/service) |
+| **_For full details:_** | **_For full details:_** | **_For full details:_** |
+| See **[README_AI.md](README_AI.md)** | See **[README_DATABASE.md](README_DATABASE.md)** | (See main README) |
 
-Role-Based File Guide
----------------------
+</div>
 
-To help everyone find their relevant files quickly, here is a breakout by development area.
-
-### *AI Development (more info @ [README_AI.md](README_AI.md)):*
-
-* [AiClient.java](src/main/java/edu/missouristate/aianalyzer/config/AiClient.java): Configures and creates the connection bean for the Gemini AI service.
-* [service/ai/](src/main/java/edu/missouristate/aianalyzer/service/ai/): This package contains the core logic for interacting with the AI.
-    * [AiQuery.java](src/main/java/edu/missouristate/aianalyzer/service/ai/AiQuery.java): Contains the specific prompts and methods used to make calls to the Gemini API.
-    * [ProcessFile.java](src/main/java/edu/missouristate/aianalyzer/service/ai/ProcessFile.java): Manages the logic for processing files (including chunking large ones) and uses `AiQuery` to get results.
-* [FileInterpretation.java](src/main/java/edu/missouristate/aianalyzer/model/FileInterpretation.java): A data model that defines the types of AI searches; ACTIVE or PASSIVE.
-
-### *Database Development (more info @ [README_DATABASE.md](README_DATABASE.md)):*
-
-* [application.properties](src/main/resources/application.properties): Contains the SQLite database connection URL and Hibernate settings (`ddl-auto`).
-* [model/database/](src/main/java/edu/missouristate/aianalyzer/model/database/): This package contains all JPA Entity classes (like `FileRecord`, `ImageMeta`). Each class here defines a table in the database schema.
-* [repository/database/](src/main/java/edu/missouristate/aianalyzer/repository/database/): This package contains all Spring Data JPA interfaces (like `FileRecordRepository`). These provide the methods to perform database operations (Create, Read, Update, Delete).
-* [service/database/](src/main/java/edu/missouristate/aianalyzer/service/database/): This package contains services that use the repositories to enact business logic, such as scanning the filesystem (both actively with 'ActiveScanService' and passively with 'PassiveScanService') and processing the queue ('FileProcessingService')
-
-### *UI/Frontend Development:*
-
-* [UiLauncher.java](src/main/java/edu/missouristate/aianalyzer/UiLauncher.java): The main entry point that starts the JavaFX application window, replacing the standard `main` method for a UI app.
-* [view/](src/main/java/edu/missouristate/aianalyzer/view/): This package holds all the Java controller classes for the different screens of the application.
-* [DriveView.java](src/main/java/edu/missouristate/aianalyzer/view/DriveView.java): The controller for the main screen, responsible for displaying drives and files.
-* [MetricsView.java](src/main/java/edu/missouristate/aianalyzer/view/MetricsView.java): The controller for the screen that displays statistics and metrics about the file scan.
-* [SettingsView.java](src/main/java/edu/missouristate/aianalyzer/view/SettingsView.java): The controller for the application's settings panel.
-* [SuggestionsView.java](src/main/java/edu/missouristate/aianalyzer/view/SuggestionsView.java): The controller for the screen that shows AI-powered suggestions or insights.
-
-How to Run
-----------
-
+## How to Run
 - Database (see [README_DATABASE.md](README_DATABASE.md))
+- UI Window
 
-- UI Window (open Maven side panel on right-hand side of IntelliJ)
+<p align="center">
+  <img src="README_images/img_3.png" />
+</p>
 
-![img_2.png](README_images/img_2.png)
+- TODO: Run .exe
 
-Requirements
-------------
-To ensure you can build and run this project successfully, please make sure you have the following software installed and configured.
+## Technology Stack
+| Category          | Technology                                           |
+| :---------------- | :--------------------------------------------------- |
+| **Language** | Java 17                                            |
+| **Backend** | Spring Boot 3.5.5, Spring Data JPA / Hibernate |
+| **Frontend** | JavaFX 21                                          |
+| **Database** | SQLite                                             |
+| **Build & Tools** | Maven, Lombok                                    |
+| **Services** | Google GenAI for Java                              |
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=java,spring,hibernate,maven,sqlite,idea,github" />
+</p>
 
-*Prerequisites (What you need to install):*
-
-* *Java Development Kit (JDK) 17:* This project is built on Java 17. You can download a recommended version from [Adoptium OpenJDK](https://adoptium.net/temurin/releases/?version=17).
-* *Apache Maven 3.6.3+:* This is the build tool used to manage project dependencies and run the application. You can [download it here](https://maven.apache.org/download.cgi).
-* *IntelliJ IDEA Lombok Plugin:* The project uses Lombok to reduce boilerplate code. You must enable the Lombok plugin in your IDE. In IntelliJ, go to *File -> Settings -> Plugins*, search for "Lombok", and install it.
-* *Google AI API Key:* The application requires a Gemini API key to function. Please follow the setup instructions in [README_AI.md](README_AI.md) to create a key and configure it for the project.
-
-*Core Project Technologies (What the project is built with):*
-
-* *Spring Boot 3.5.5:* The core framework for the backend application, handling dependency injection and auto-configuration.
-* *Spring Data JPA:* The framework used for the persistence layer, simplifying database interactions with repositories and entities.
-* *JavaFX 21:* The framework used for building the graphical user interface.
-* *SQLite:* The file-based SQL database engine used to store all application data.
-* *Google GenAI for Java:* The official Google library used to make API calls to the Gemini model.
-
-
-Contributors
-------------
-
+## Contributors
 This project is a collaborative effort by:
 
-| Name          | Role               | GitHub Profile                               |
-|---------------|--------------------| -------------------------------------------- |
+| Name          | Role               | GitHub Profile                                   |
+|---------------|--------------------|--------------------------------------------------|
 | Reese McClurg | Backend / Database | [@ReeseMcClurg](https://github.com/ReeseMcClurg) |
-| Jake Schildknecht         | AI Integration     | [@jakeschild9](https://github.com/jakeschild9) |
-| Josh Dejeu    | UI / Frontend      | [@JoshDejeu](https://github.com/JoshDejeu)       |
+| Jake Schildknecht         | AI Integration     | [@jakeschild9](https://github.com/jakeschild9)   |
+| Josh Dejeu    | UI / Frontend      | [@JoshDejeu](htt ps://github.com/JoshDejeu)      |
 
-License
--------
-MIT License
+<p align="center">
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+  <img src="https://img.shields.io/badge/License-MIT-yellow?logo=open-source-initiative&logoColor=white" />
+</p>

@@ -1,50 +1,43 @@
 Initial Setup: How to Get and Configure a GEMINI API Key
 ==========================================================
-1. Visit https://aistudio.google.com/app/apikey to generate an API key (it's free and no billing required).
+The application requires a Google Gemini API key to function.
 
-2. Create an `env.properties` file in the project's root directory (the same level as `pom.xml`).
+1.  Visit **[https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)** to generate an API key (it's free and no billing is required).
+2.  Create an **`env.properties`** file in the project's root directory (the same level as `pom.xml`).
+3.  Paste your API key into this file in the following format: `GEMINI_API_KEY=YOUR_KEY_HERE`
+4.  In IntelliJ, go to your **`AiAnalyzerApplication`** run configuration (top-right of the window).
 
-3. Paste your API key into this file in the following format: `GEMINI_API_KEY=YOUR_KEY_HERE`
+5. ![img_1.png](README_images/img_1.png)
+5.  Click **`Edit Configurations...`** > **`Modify Options`** > **`Environment Variables`**.
+6.  In the "Environment variables" field, point to your `env.properties` file by clicking the folder icon and selecting it.
 
-4. In IntelliJ, go to your `AiAnalyzerApplication` run configuration (top-right of the window).
 
-![img_1.png](README_images/img_1.png)
+## AI System Overview
 
-5. Click `Edit Configurations...` > `Modify Options` > `Environment Variables`.
+----------------------
+The primary role of the AI is to analyze file content and provide two key pieces of information: a **classification** (e.g., "Safe", "Suspicious", "Malicious") and a brief, human-readable **description** of the file.
 
-6. In the "Environment variables" field, point to your `env.properties` file.
+## Core AI Workflow
 
-AI System Overview
 ------------------
-The primary role of the AI in this project is to analyze file content and provide two key pieces of information:
-1.  A **classification** (e.g., "Safe", "Suspicious", "Malicious").
-2.  A brief, human-readable **description** or summary of the file's content.
+Here’s the step-by-step data flow for how a file is processed by the AI system:
 
-This is all orchestrated through a few key services that work together.
+1.  **Queue Consumption:** The `FileProcessingService` picks a task from the database queue.
+2.  **Orchestration:** It calls the `ProcessFile` service, which is the main coordinator for AI analysis.
+3.  **File Reading:** `ProcessFile` reads the file content, intelligently chunking large files to manage memory usage.
+4.  **Querying:** It then calls a specific method in the `AiQuery` service (e.g., `passiveResponseFromFile`).
+5.  **Prompt Execution:** The `AiQuery` service contains the actual text **prompts** sent to the Gemini model. It uses the `AiClient` to make the API call.
+6.  **Response Handling:** The AI's response (formatted as `"Classification%Description"`) is returned.
+7.  **Storage:** The `ProcessFile` service passes this string back to be parsed and saved to the database by the `LabelService`.
 
-Core AI Workflow
-----------------
-Understanding the data flow is key. Here’s how a file is processed by the AI system:
+## Key Files & Packages
 
-1.  The [`FileProcessingService`](src/main/java/edu/missouristate/aianalyzer/service/database/FileProcessingService.java) picks a task from the database queue.
-2.  It calls the [`ProcessFile`](src/main/java/edu/missouristate/aianalyzer/service/ai/ProcessFile.java) service, which is the main orchestrator for AI analysis.
-3.  `ProcessFile` reads the content of the file. If the file is large, it intelligently reads it in chunks to avoid using too much memory.
-4.  It then calls a specific method in the [`AiQuery`](src/main/java/edu/missouristate/aianalyzer/service/ai/AiQuery.java) service (e.g., `passiveResponseFromFile` or `responseForLargeFileChunks`).
-5.  The `AiQuery` service contains the actual text **prompts** that we send to the Gemini model. It uses the [`AiClient`](src/main/java/edu/missouristate/aianalyzer/config/AiClient.java) to make the API call.
-6.  The AI's response (a single string) is returned. The standard format is `"Classification%Description"`.
-7.  The `ProcessFile` service receives this string and passes it back, where it eventually gets saved to the database by a service like [`LabelService`](src/main/java/edu/missouristate/aianalyzer/service/database/LabelService.java).
+* `config/AiClient.java`: Configures and creates the connection to the Gemini AI service.
+* `service/ai/AiQuery.java`: Contains all the prompts sent to the AI. Modifying the text in this file will change the AI's behavior.
+* `service/ai/ProcessFile.java`: Orchestrates the analysis. It decides how to handle files based on size and calls the appropriate methods in `AiQuery`.
+* `model/FileInterpretation.java`: A data model that defines the *type* of AI search being performed (e.g., `ACTIVE` for a summary, `PASSIVE` for just a classification).
 
+## How to Test Prompts
 
-Important File Locations
-----------------------------
-These are the main files:
-
-* [`AiClient.java`](src/main/java/edu/missouristate/aianalyzer/config/AiClient.java): This configures and creates the connection to the Gemini AI service.
-* [`AiQuery.java`](src/main/java/edu/missouristate/aianalyzer/service/ai/AiQuery.java): This contains all the prompts sent to the AI. Modifying the text in this file will change the AI's behavior and responses.
-* [`ProcessFile.java`](src/main/java/edu/missouristate/aianalyzer/service/ai/ProcessFile.java): This service orchestrates the analysis. It decides whether to process a file as "small" or "large" and calls the appropriate methods in `AiQuery`.
-* [`FileInterpretation.java`](src/main/java/edu/missouristate/aianalyzer/model/FileInterpretation.java): This is a data model that defines the *type* of AI search being performed (e.g., `ACTIVE` for a summary, `PASSIVE` for just a classification).
-
-
-How to Test Your Prompts
 ------------------------
-You don't need to run the entire application to test a new prompt. A great way to quickly test changes is to create a temporary test in the `test` source folder that calls your `AiQuery` methods directly with a sample piece of text. This will let you iterate on your prompts much faster.
+You don't need to run the entire application to test a new prompt. The fastest way to iterate is to create a temporary test in the `src/test/java` folder that calls your `AiQuery` methods directly with sample text. This allows for rapid testing without the overhead of the file scanner and database.

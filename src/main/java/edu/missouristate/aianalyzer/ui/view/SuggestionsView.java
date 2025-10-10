@@ -1,12 +1,14 @@
-package edu.missouristate.aianalyzer.view;
+package edu.missouristate.aianalyzer.ui.view;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import org.springframework.stereotype.Component;
 
 /**
  * Component representing the AI Suggestions page.
  */
+@Component
 public class SuggestionsView extends VBox {
 
     public SuggestionsView() {

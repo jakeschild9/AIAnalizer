@@ -1,4 +1,4 @@
-package edu.missouristate.aianalyzer.view;
+package edu.missouristate.aianalyzer.ui.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -7,11 +7,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import org.springframework.stereotype.Component;
 
 /**
  * Component representing the Metrics page.
  * Displays a 3-column flexible card layout for data visualization templates
  */
+@Component
 public class MetricsView extends VBox {
 
     // Define the base size for one column, including HGap (15px)

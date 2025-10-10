@@ -1,6 +1,5 @@
-package edu.missouristate.aianalyzer.view;
+package edu.missouristate.aianalyzer.ui.view;
 
-import edu.missouristate.aianalyzer.UiLauncher;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -13,14 +12,16 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.Node;
 import java.io.File;
 import javafx.scene.layout.TilePane;
+import org.springframework.stereotype.Component;
 
 /**
  * The main "Drives" page that shows system drives on the left
  * and categorized file summaries on the right.
  */
+@Component
 public class DriveView extends SplitPane {
 
-    public DriveView(UiLauncher uiLauncher) {
+    public DriveView() {
         // --- Create the left (drive list) and right (categories) panels ---
         VBox driveTreePanel = createDriveTreePanel();
         VBox categoryPanel = createCategoryPanel();

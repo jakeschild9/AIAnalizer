@@ -1,16 +1,16 @@
-package edu.missouristate.aianalyzer.view;
+package edu.missouristate.aianalyzer.ui.view;
 
-import edu.missouristate.aianalyzer.UiLauncher;
+import edu.missouristate.aianalyzer.ui.service.ThemeService;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -18,9 +18,9 @@ import java.util.Map;
 /**
  * The settings page for the app. Right now it just handles changing the theme.
  */
+@Component
 public class SettingsView extends VBox {
-
-    private final UiLauncher launcher;
+    private final ThemeService themeService;
 
     // Helper to link a theme's name (like "MSU Maroon") to its file (like "msu-maroon.css").
     private record Theme(String displayName, String cssFileName) {}
@@ -42,8 +42,8 @@ public class SettingsView extends VBox {
             Map.entry("dark", List.of("#2B2B2B", "#3C3F41", "#BBBBBB", "#007AFF"))
     );
 
-    public SettingsView(UiLauncher launcher) {
-        this.launcher = launcher;
+    public SettingsView(ThemeService themeService) {
+        this.themeService = themeService;
         this.getStyleClass().add("settings-view");
         this.setAlignment(Pos.TOP_LEFT);
         this.setPadding(new Insets(20));
@@ -146,7 +146,7 @@ public class SettingsView extends VBox {
         finalCard.getChildren().addAll(preview, themeNameLabel);
 
         // When the card is clicked, apply the new theme.
-        finalCard.setOnMouseClicked(e -> launcher.applyTheme(theme.cssFileName()));
+        finalCard.setOnMouseClicked(e -> this.themeService.applyTheme(theme.cssFileName()));
 
         return finalCard;
     }

@@ -6,25 +6,18 @@ This guide explains how to run the application to test the database functionalit
 
 Part 1: Get an API Key
 -------------------------------------------------
-
-The application crashes on startup because it requires a Gemini API key.
-
-1. See [README_AI.md](README_AI.md) for instructions on how to get a key and configure it for the project.
-
+The application will not run without a valid Gemini API key. Before proceeding, please see **[README_AI.md](README_AI.md)** for instructions on how to get a key and configure it for the project.
 
 Part 2: Connect IntelliJ to the SQLite Database
 -----------------------------------------------
 
-1. *Run `AiAnalyzerApplication.java` once.* This will execute the `ddl-auto=update` command in `application.properties` and create the `aianalyzer.db` file in your project's root directory. Stop the application after it has started successfully.
-
-2. Open the *Database* tool window in IntelliJ (usually on the right-hand panel).
-
-3. Click the *+ icon -> Data Source -> SQLite*.
-
-4. For the `File`, point it to the `aianalyzer.db` file in your project root.
-
-5. It may ask you to download drivers; you will need them.
-
+1.  **Run `AiAnalyzerApplication.java` once.** This will create the `aianalyzer.db` file in the project's root directory. You can stop the application after it starts.
+2.  Open the **Database** tool window in IntelliJ (View -> Tool Windows -> Database).
+3.  Click the **`+`** icon -> Data Source -> SQLite.
+4.  For the `File`, point it to the `aianalyzer.db` file that was just created in your project root.
+5.  You will likely see a warning about missing drivers. Click the **"Download missing driver files"** link.
+6.  **Important:** After the download finishes, click **`Apply`** first, and then click **`OK`**.
+7.  In the Database tool window, right-click your `aianalyzer.db` connection and select **Refresh**. You should now see all the application tables.
 
 Part 3: Fix the "Driver Not Found" Error
 ----------------------------------------
@@ -44,34 +37,23 @@ You should now have a working connection to the database.
 Note: You may need to right-click the aianalyzer.db and click Refresh to see the populated tables. MAKE SURE the application is not running when you click refresh.
 
 
-Core Database Workflow
+## Core Architecture: Producer-Consumer Queue
+
 ----------------------
-Our backend uses a "producer-consumer" pattern with the database acting as the queue. Here is the step-by-step lifecycle of how a file gets scanned, processed, and stored.
+Our backend uses a "producer-consumer" pattern with the database acting as a task queue.
 
-1.  **Production (Adding a Task to the Queue):** This process is started by either the [`ActiveScanService`](src/main/java/edu/missouristate/aianalyzer/service/database/ActiveScanService.java) or the [`PassiveScanService`](src/main/java/edu/missouristate/aianalyzer/service/database/PassiveScanService.java). When a file is discovered, a [`ScanQueueItem`](src/main/java/edu/missouristate/aianalyzer/model/database/ScanQueueItem.java) object is created and saved to the `scan_queue` table using the [`ScanQueueItemRepository`](src/main/java/edu/missouristate/aianalyzer/repository/database/ScanQueueItemRepository.java).
+1.  **Production (Adding a Task):** The `ActiveScanService` or `PassiveScanService` discovers a new file. It creates a `ScanQueueItem` and saves it to the `scan_queue` table.
+2.  **Consumption (Grabbing a Task):** The `FileProcessingService` runs on a schedule. It queries the `scan_queue` table for items that are ready to be processed.
+3.  **Processing (Doing the Work):** For each item, the service reads the file's metadata from the disk (size, date, etc.).
+4.  **Storage (Saving the Result):** The service creates a `FileRecord` with this metadata and saves it to the main `files` table.
+5.  **Cleanup (Removing the Task):** After the file is successfully stored, the original `ScanQueueItem` is deleted from the queue.
 
-2.  **Consumption (Grabbing a Task):** The [`FileProcessingService`](src/main/java/edu/missouristate/aianalyzer/service/database/FileProcessingService.java) runs in the background. It calls the [`ScanQueueItemRepository`](src/main/java/edu/missouristate/aianalyzer/repository/database/ScanQueueItemRepository.java) to fetch a batch of items from the queue that are ready to be processed.
+## Key Packages & Files
 
-3.  **Processing (Doing the Work):** For each item, the [`FileProcessingService`](src/main/java/edu/missouristate/aianalyzer/service/database/FileProcessingService.java) reads the file's metadata from the disk (size, date, etc.).
-
-4.  **Storage (Saving the Final Result):** The service then creates a new [`FileRecord`](src/main/java/edu/missouristate/aianalyzer/model/database/FileRecord.java) object with this metadata and saves it to the main `files` table using the [`FileRecordRepository`](src/main/java/edu/missouristate/aianalyzer/repository/database/FileRecordRepository.java).
-
-5.  **Cleanup (Removing the Task):** After the file is successfully processed, the [`FileProcessingService`](src/main/java/edu/missouristate/aianalyzer/service/database/FileProcessingService.java) deletes the original `ScanQueueItem` from the queue table.
-
-
-Important File Locations
-----------------------------
-These are the main files for database development:
-
-* [`application.properties`](src/main/resources/application.properties): Contains the SQLite database connection URL and Hibernate settings (`ddl-auto`).
-* [`model/database/`](src/main/java/edu/missouristate/aianalyzer/model/database/): This package contains all JPA Entity classes (like `FileRecord`). Each class here defines a table in the database schema.
-* [`repository/database/`](src/main/java/edu/missouristate/aianalyzer/repository/database/): This package contains all Spring Data JPA interfaces (like `FileRecordRepository`). These provide the methods to perform database operations (Create, Read, Update, Delete).
-* [`ActiveScanService.java`](src/main/java/edu/missouristate/aianalyzer/service/database/ActiveScanService.java): The "producer" service for on-demand, full directory scans.
-* [`PassiveScanService.java`](src/main/java/edu/missouristate/aianalyzer/service/database/PassiveScanService.java): The "producer" service for background, real-time file monitoring.
-* [`FileProcessingService.java`](src/main/java/edu/missouristate/aianalyzer/service/database/FileProcessingService.java): The "consumer" service that processes items from the queue and saves final records.
-
-
-
+* `application.properties`: Contains the SQLite database connection URL and Hibernate settings (`ddl-auto`).
+* `model/database/`: Contains all JPA `@Entity` classes (e.g., `FileRecord`). Each class here defines a database table schema.
+* `repository/database/`: Contains all Spring Data JPA interfaces (e.g., `FileRecordRepository`). These provide the methods (`find`, `save`, `delete`) to perform database operations without writing SQL.
+* `service/database/`: Contains the services that implement the producer-consumer logic described above (`ActiveScanService`, `PassiveScanService`, `FileProcessingService`).
 
 # IMPORTANT CHANGES (Historical Context)
 
