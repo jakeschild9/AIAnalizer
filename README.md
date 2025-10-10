@@ -163,11 +163,11 @@ src/main/
 ## Contributors
 This project is a collaborative effort by:
 
-| Name          | Role               | GitHub Profile                                   |
-|---------------|--------------------|--------------------------------------------------|
+| Name          | Role               | GitHub Profile                                  |
+|---------------|--------------------|-------------------------------------------------|
 | Reese McClurg | Backend / Database | [@ReeseMcClurg](https://github.com/ReeseMcClurg) |
-| Jake Schildknecht         | AI Integration     | [@jakeschild9](https://github.com/jakeschild9)   |
-| Josh Dejeu    | UI / Frontend      | [@JoshDejeu](htt ps://github.com/JoshDejeu)      |
+| Jake Schildknecht         | AI Integration     | [@jakeschild9](https://github.com/jakeschild9)  |
+| Josh Dejeu    | UI / Frontend      | [@JoshDejeu](https://github.com/JoshDejeu)      |
 
 <p align="center">
 
