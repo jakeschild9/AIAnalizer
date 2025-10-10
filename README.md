@@ -10,21 +10,55 @@
   <img src="https://img.shields.io/badge/JavaFX-21-orange?logo=openjdk&logoColor=white" />
   <img src="https://img.shields.io/badge/SQLite-Database-blue?logo=sqlite&logoColor=white" />
   <img src="https://img.shields.io/badge/License-MIT-yellow?logo=open-source-initiative&logoColor=white" />
-
+</p>
 
 <hr style="border: 0.5px solid #ccc; margin: 20px 0;">
 
 
-<p align="center">
-  <b>AI-powered file analysis tool</b><br>
-  Analyze, classify, and interpret local files using Spring Boot + JavaFX + Google Gemini.
-</p>
 
+<!-- Main large image -->
 <p align="center">
-  <img src="README_images/img_2.png" alt="AiAnalyzer Screenshot" width="600"><br>
+  <img src="README_images/img_2.png" alt="AIAnalyzer Main Dashboard" width="650"><br>
   <em>Main Dashboard Interface</em>
 </p>
 
+<!-- Two smaller images side by side -->
+<p align="center">
+  <img src="README_images/theme_selection.png" alt="Theme Selection" width="320" style="margin: 0 10px;">
+  <img src="README_images/metrics.png" alt="Metrics" width="320" style="margin: 0 10px;"><br>
+  <em>Theme Selection (left) &nbsp;&nbsp;•&nbsp;&nbsp; Metrics (right)</em>
+</p>
+
+## Themes
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="README_images/monolith.png" alt="Monolith Theme" width="300"><br>
+      <em>Monolith</em>
+    </td>
+    <td align="center">
+      <img src="README_images/clay-and-slate.png" alt="Clay and Slate Theme" width="300"><br>
+      <em>Clay & Slate</em>
+    </td>
+    <td align="center">
+      <img src="README_images/forest-edge.png" alt="Forest Edge Theme" width="300"><br>
+      <em>Forest Edge</em>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="README_images/oceans-depth.png" alt="Oceans Depth Theme" width="300"><br>
+      <em>Oceans Depth</em>
+    </td>
+    <td align="center">
+      <img src="README_images/obsidian.png" alt="Obsidian Theme" width="300"><br>
+      <em>Obsidian</em>
+    </td>
+    <td align="center">
+      <!-- empty cell to keep layout balanced -->
+    </td>
+  </tr>
+</table>
 
 <p align="center">
   <a href="#getting-started--setup">Getting Started</a> •
@@ -63,13 +97,12 @@ src/main/
 ├── java/
 │   └── edu/missouristate/aianalyzer/
 │       ├── AiAnalyzerApplication.java    <- [Entry Point]
-│       ├── config/                       <- Holds Spring @Configuration beans for setup.
-│       ├── model/                        <- Defines data structures and database tables (@Entity classes).
-│       ├── repository/                   <- Handles database queries (e.g., find, save, delete).
-│       ├── service/                      <- Contains the core backend business logic.
-│       └── ui/                           <- Contains all frontend JavaFX code.
-└── resources/
-    └── application.properties            <- Spring Boot configuration for the database, etc.
+│       ├── config/..                     <- Holds Spring @Configuration beans for setup.
+│       ├── model/..                      <- Defines data structures and database tables (@Entity classes).
+│       ├── repository/..                 <- Handles database queries (e.g., find, save, delete).
+│       ├── service/..                    <- Contains the core backend business logic.
+│       └── ui/..                         <- Contains all frontend JavaFX code.
+└── resources/..                          <- Spring Boot configuration for the database, CSS files for UI
 ```
 
 </details>
