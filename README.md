@@ -2,7 +2,7 @@
   <img src="README_images/logo.png" alt="AiAnalyzer Logo" width="120">
 </p>
 
-<h1 id="aianalyzer" align="center">AiAnalyzer</h1>
+<h1 id="aianalyzer" align="center">File AiAnalyzer</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Java-17-blue?logo=java&logoColor=white" />
