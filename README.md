@@ -2,7 +2,7 @@
   <img src="README_images/logo.png" alt="AiAnalyzer Logo" width="120">
 </p>
 
-<h1 align="center">AiAnalyzer</h1>
+<h1 id="aianalyzer" align="center">AiAnalyzer</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Java-17-blue?logo=java&logoColor=white" />
@@ -11,6 +11,7 @@
   <img src="https://img.shields.io/badge/SQLite-Database-blue?logo=sqlite&logoColor=white" />
   <img src="https://img.shields.io/badge/License-MIT-yellow?logo=open-source-initiative&logoColor=white" />
 </p>
+
 
 <hr style="border: 0.5px solid #ccc; margin: 20px 0;">
 
@@ -180,6 +181,11 @@ src/main/
 
 - TODO: Run .exe
 
+<p align="right">
+
+[⬆ Back to top](#aianalyzer)
+</p>
+
 ## Technology Stack
 | Category          | Technology                                           |
 | :---------------- | :--------------------------------------------------- |
@@ -210,3 +216,5 @@ This project is licensed under the [MIT License](LICENSE).
 
   <img src="https://img.shields.io/badge/License-MIT-yellow?logo=open-source-initiative&logoColor=white" />
 </p>
+
+
