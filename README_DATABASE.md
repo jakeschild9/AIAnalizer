@@ -58,7 +58,7 @@ To help understand the recent refactor, here is a mapping of the old code to its
 
 ### Database Queries
 ```
-- Old: Manual PreparedStatement and raw SQL strings.
+- Old: Manual PreparedStatement and raw SQL strings
 + New: The interfaces in the repository/database/ package.
 # Improvement: Spring Data JPA writes the SQL for us, which is safer and cleaner.
 ```

@@ -30,6 +30,10 @@
   <em>Theme Selection (left) &nbsp;&nbsp;•&nbsp;&nbsp; Metrics (right)</em>
 </p>
 
+<p style="text-align: right;">
+  <a href="#aianalyzer">Back to Top ↑</a>
+</p>
+
 ## Themes
 <table align="center">
   <tr>
@@ -88,6 +92,10 @@ First-time setup is required. You must configure your Gemini API key and connect
 
 **>> See [README_AI.md](README_AI.md) and [README_DATABASE.md](README_DATABASE.md) for full setup instructions.**
 
+
+<p style="text-align: right;">
+  <a href="#aianalyzer">Back to Top ↑</a>
+</p>
 
 ## Project Structure
 <details>
@@ -181,10 +189,10 @@ src/main/
 
 - TODO: Run .exe
 
-<p align="right">
-
-[⬆ Back to top](#aianalyzer)
+<p style="text-align: right;">
+  <a href="#aianalyzer">Back to Top ↑</a>
 </p>
+
 
 ## Technology Stack
 | Category          | Technology                                           |
@@ -218,3 +226,6 @@ This project is licensed under the [MIT License](LICENSE).
 </p>
 
 
+<p style="text-align: right;">
+  <a href="#aianalyzer">Back to Top ↑</a>
+</p>
