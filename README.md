@@ -27,7 +27,7 @@
 <p align="center">
   <img src="README_images/theme_selection.png" alt="Theme Selection" width="320" style="margin: 0 10px;">
   <img src="README_images/metrics.png" alt="Metrics" width="320" style="margin: 0 10px;"><br>
-  <em>Theme Selection (left) &nbsp;&nbsp;•&nbsp;&nbsp; Metrics (right)</em>
+  <em>Theme Selection (left) &nbsp;&nbsp;•&nbsp;&nbsp; Metric Reports (right)</em>
 </p>
 
 <p style="text-align: right;">
