@@ -152,12 +152,18 @@ src/main/
             ├── event/
             │   └── StageReadyEvent.java         <- A signal fired when the UI is ready to be built.
             ├── service/
-            │   └── ThemeService.java            <- Handles applying and changing CSS themes.
+            │   ├── FileSystemService.java       <- Handles file system operations like getting child folders for the UI.
+            │   └── ThemeService.java            <- Manages applying and changing CSS themes.
             ├── view/
-            │   ├── DriveView.java               <- The main screen for browsing drives and file categories.
-            │   ├── MetricsView.java             <- The screen for displaying statistics about scanned files.
-            │   ├── SettingsView.java            <- The screen for changing application settings, like the theme.
-            │   └── SuggestionsView.java         <- The screen for showing AI-powered suggestions.
+            │   ├── Home/
+            │   │   ├── DriveView.java           <- The main screen for browsing drives and file categories.
+            │   │   └── FileTreeItem.java        <- A custom tree item that lazy-loads folders in the background.
+            │   ├── Metrics/
+            │   │   └── MetricsView.java         <- The screen for displaying statistics about scanned files.
+            │   ├── Settings/
+            │   │   └── SettingsView.java        <- The screen for changing application settings, like the theme.
+            │   └── Suggestions/
+            │       └── SuggestionsView.java     <- The screen for showing AI-powered suggestions.
             ├── JavaFxApplication.java           <- The entry point for the JavaFX UI; it starts Spring and manages the UI lifecycle.
             └── StageInitializer.java            <- Builds the main application window once Spring and JavaFX are ready.
 ```
