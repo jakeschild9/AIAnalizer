@@ -1,4 +1,4 @@
-package edu.missouristate.aianalyzer.ui.view;
+package edu.missouristate.aianalyzer.ui.view.Settings;
 
 import edu.missouristate.aianalyzer.ui.service.ThemeService;
 import javafx.geometry.Insets;

@@ -2,10 +2,10 @@ package edu.missouristate.aianalyzer.ui;
 
 import edu.missouristate.aianalyzer.ui.event.StageReadyEvent;
 import edu.missouristate.aianalyzer.ui.service.ThemeService;
-import edu.missouristate.aianalyzer.ui.view.DriveView;
-import edu.missouristate.aianalyzer.ui.view.MetricsView;
-import edu.missouristate.aianalyzer.ui.view.SettingsView;
-import edu.missouristate.aianalyzer.ui.view.SuggestionsView;
+import edu.missouristate.aianalyzer.ui.view.Home.DriveView;
+import edu.missouristate.aianalyzer.ui.view.Metrics.MetricsView;
+import edu.missouristate.aianalyzer.ui.view.Settings.SettingsView;
+import edu.missouristate.aianalyzer.ui.view.Suggestions.SuggestionsView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

@@ -1,44 +1,37 @@
-package edu.missouristate.aianalyzer.ui.view;
+package edu.missouristate.aianalyzer.ui.view.Home;
 
+import edu.missouristate.aianalyzer.ui.service.FileSystemService;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.scene.control.SplitPane;
 import javafx.scene.Node;
-import java.io.File;
-import javafx.scene.layout.TilePane;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-/**
- * The main "Drives" page that shows system drives on the left
- * and categorized file summaries on the right.
- */
+import java.io.File;
+
 @Component
 public class DriveView extends SplitPane {
 
-    public DriveView() {
-        // --- Create the left (drive list) and right (categories) panels ---
+    private final FileSystemService fileSystemService;
+
+    @Autowired
+    public DriveView(FileSystemService fileSystemService) {
+        this.fileSystemService = fileSystemService;
+
+        // Set up the two main panels: the drive list on the left, categories on the right.
         VBox driveTreePanel = createDriveTreePanel();
         VBox categoryPanel = createCategoryPanel();
 
-        // --- Add both panels into the SplitPane layout ---
         this.getItems().addAll(driveTreePanel, categoryPanel);
         this.setDividerPositions(0.40);
         this.getStyleClass().add("drive-split-view");
 
-        // Make sure it expands to fill available space.
         HBox.setHgrow(this, Priority.ALWAYS);
         VBox.setVgrow(this, Priority.ALWAYS);
     }
 
-    /**
-     * Builds the left panel that lists all system drives.
-     */
     private VBox createDriveTreePanel() {
         VBox panel = new VBox(10);
         panel.setAlignment(Pos.TOP_LEFT);
@@ -47,59 +40,75 @@ public class DriveView extends SplitPane {
         Label header = new Label("System Drives");
         header.getStyleClass().add("header-label");
 
-        // --- Tree view setup ---
-        TreeView<String> treeView = new TreeView<>();
+        // Set up the TreeView. It's now generic and works directly with <File> objects.
+        TreeView<File> treeView = new TreeView<>();
         treeView.getStyleClass().add("tree-view");
+        VBox.setVgrow(treeView, Priority.ALWAYS);
 
-        TreeItem<String> rootItem = new TreeItem<>("My Computer");
+        // We need a root for the tree that isn't a real drive, so I'll make a fake 'My Computer' item.
+        File virtualRootFile = new File("My Computer");
+        TreeItem<File> rootItem = new TreeItem<>(virtualRootFile);
         rootItem.setExpanded(true);
         treeView.setRoot(rootItem);
         treeView.setShowRoot(true);
-        VBox.setVgrow(treeView, Priority.ALWAYS);
 
-        // --- Add each drive to the tree ---
+        // Loop through all the system drives and add them under 'My Computer'.
+        // I'm using my custom FileTreeItem so it can load subfolders on its own.
         for (File drive : File.listRoots()) {
-            String driveName = drive.getAbsolutePath();
-            long totalSpace = drive.getTotalSpace();
-            long usableSpace = drive.getUsableSpace();
-
-            String labelText = totalSpace > 0
-                    ? String.format("%s (%.1f GB Free / %.1f GB Total)",
-                    driveName, usableSpace / 1e9, totalSpace / 1e9)
-                    : driveName + " (Unavailable or No Media)";
-
-            TreeItem<String> driveItem = new TreeItem<>(labelText);
+            FileTreeItem driveItem = new FileTreeItem(drive, fileSystemService);
             rootItem.getChildren().add(driveItem);
-
-            // Add a dummy child so it can be expanded later (if supported)
-            if (totalSpace > 0) {
-                driveItem.getChildren().add(new TreeItem<>("..."));
-            }
         }
 
-        // --- Put it all together ---
+        // This is the important part. By default, the TreeView doesn't know how to display a `File` object.
+        // We have to tell it exactly what text to show for each item in the tree.
+        treeView.setCellFactory(tv -> new TreeCell<>() {
+            @Override
+            protected void updateItem(File file, boolean empty) {
+                super.updateItem(file, empty);
+                if (empty || file == null) {
+                    setText(null);
+                } else {
+                    // Handle my fake root and the 'Loading...' placeholder text.
+                    if (file.getPath().equals("My Computer") || file.getPath().equals("Loading...")) {
+                        setText(file.getPath());
+                    } else {
+                        // For actual drives and folders, show a clean path and, if it's a drive, the free space.
+                        long totalSpace = file.getTotalSpace();
+                        String path = file.getAbsolutePath();
+                        String text = path;
+                        if (totalSpace > 0) {
+                            text = String.format("%s (%.1f GB Free)",
+                                    path, file.getUsableSpace() / 1e9);
+                        }
+                        setText(text);
+                    }
+                }
+            }
+        });
+
         panel.getChildren().addAll(header, treeView);
         return panel;
     }
 
-    /**
-     * Builds the right panel that shows file categories (Photos, Videos, etc.).
-     */
+
+    // RIGHT panel above
+    // LEFT panel below
+
+    // Builds the panel on the right that shows all the file category cards.
     private VBox createCategoryPanel() {
         VBox panel = new VBox(10);
         panel.setAlignment(Pos.TOP_LEFT);
         panel.setPadding(new Insets(15));
-        // This panel uses the main theme background (no custom color).
 
         Label header = new Label("File Categories");
         header.getStyleClass().add("header-label");
 
-        // --- Create a grid layout for the category cards ---
+        // A TilePane is perfect for the category cards, it'll wrap them nicely as the window resizes.
         TilePane categoryGrid = new TilePane(10, 10);
         categoryGrid.setPadding(new Insets(10, 0, 0, 0));
         VBox.setVgrow(categoryGrid, Priority.ALWAYS);
 
-        // --- Add sample category cards ---
+        // For now, just add some placeholder cards to see how it looks.
         categoryGrid.getChildren().addAll(
                 createCategoryCard("Photos", "24,561 files"),
                 createCategoryCard("Videos", "283 GB"),
@@ -113,14 +122,11 @@ public class DriveView extends SplitPane {
                 createCategoryCard("Unclassified", "Needs AI review")
         );
 
-        // --- Put everything together ---
         panel.getChildren().addAll(header, categoryGrid);
         return panel;
     }
 
-    /**
-     * Creates a single category card with a title and short description.
-     */
+    // Helper function to make one of those category cards.
     private Node createCategoryCard(String title, String subtitle) {
         VBox cardContent = new VBox(5);
         cardContent.setAlignment(Pos.TOP_LEFT);
@@ -136,12 +142,14 @@ public class DriveView extends SplitPane {
 
         cardContent.getChildren().addAll(titleLabel, subtitleLabel);
 
-        // --- Wrap content into a card container ---
+        // The VBox `card` is the main container with all the styling.
         VBox card = new VBox(cardContent);
         card.setPrefSize(180, 100);
         card.getStyleClass().add("category-card");
 
-        // Convert title into a safe CSS class (e.g., "Temp/Cache" → "category-temp-cache")
+        // This lets me use the card's title for CSS. I'm converting a title like "Temp/Cache"
+        // into a safe class name like "category-temp-cache" so I can style each card
+        // type differently in the CSS file.
         String styleClassName = "category-" + title.toLowerCase()
                 .replace(" ", "-")
                 .replace("/", "-");

@@ -1,4 +1,4 @@
-package edu.missouristate.aianalyzer.ui.view;
+package edu.missouristate.aianalyzer.ui.view.Suggestions;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

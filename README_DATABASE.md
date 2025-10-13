@@ -11,12 +11,26 @@ This guide explains how to run the application to test the database functionalit
 1.  **Run `AiAnalyzerApplication.java` once.** This will create the `aianalyzer.db` file in your project's root directory. You can stop the application after it has started.
 2.  Open the **Database** tool window in IntelliJ (View -> Tool Windows -> Database).
 3.  Click the **`+`** icon -> Data Source -> SQLite.
+
+<p align="center">
+    <img src="README_images/database_datasource.png" alt="database datasource" width="30%">
+</p>
+
 4.  For the `File`, point it to the `aianalyzer.db` file that was just created in your project root.
+
+<p align="center">
+  <img src="README_images/database_file.png" alt="Select file" width="45%">
+  <img src="README_images/database_file_open.png" alt="Database file open" width="25%">
+</p>
+<p align="center"><em>Selecting and confirming the SQLite file</em></p>
+
 5.  You will likely see a warning about a missing driver. Click the **"Download missing driver files"** link.
 6.  **Important:** After the download finishes, click **`Apply`** first, and then click **`OK`**.
 7.  In the Database tool window, right-click your `aianalyzer.db` connection, and select **Refresh**. You should now see all the application tables.
 
-![img.png](README_images/img.png)
+<p align="center">
+  <img src="README_images/img.png" alt="Database tables view" width="20%">
+</p>
 
 > [!NOTE]
 > You may need to right-click the aianalyzer.db and click Refresh to see the populated tables. MAKE SURE the application is not running when you click refresh.

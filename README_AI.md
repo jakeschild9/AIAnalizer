@@ -1,17 +1,43 @@
-Initial Setup: How to Get and Configure a GEMINI API Key
-==========================================================
-The application requires a Google Gemini API key to function.
+## Initial Setup: How to Get and Configure a GEMINI API Key
 
-1.  Visit **[https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)** to generate an API key (it's free and no billing is required).
-2.  Create an **`env.properties`** file in the project's root directory (the same level as `pom.xml`).
-3.  Paste your API key into this file in the following format: `GEMINI_API_KEY=YOUR_KEY_HERE`
-4.  In IntelliJ, go to your **`AiAnalyzerApplication`** run configuration (top-right of the window).
+> [!WARNING]
+> **API Key Required:** The application will not run without a valid Google Gemini API key. The following steps are mandatory for the application to function.
 
-5. ![img_1.png](README_images/img_1.png)
-5.  Click **`Edit Configurations...`** > **`Modify Options`** > **`Environment Variables`**.
-6.  In the "Environment variables" field, point to your `env.properties` file by clicking the folder icon and selecting it.
+### Configuring the API Key in IntelliJ
 
+1.  Visit **[https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)** to generate an API key. It's free and does not require a billing account.
+2.  Create a new file named `env.properties` in the project's root directory (at the same level as `pom.xml`).
 
+> [!TIP]
+> See the `env.properties.example` file included in the project for a template you can use.
+
+3.  Paste your API key into the `env.properties` file using the following format:
+    ```properties
+    GEMINI_API_KEY=YOUR_KEY_HERE
+    ```
+4.  In IntelliJ, navigate to the run configuration dropdown in the toolbar (it should say **`AiAnalyzerApplication`**) and select **`Edit Configurations...`**.
+
+    <p align="center">
+      <img src="README_images/ai_edit_configurations.png" alt="Edit Run Configurations" width="55%">
+    </p>
+
+5.  In the Run/Debug Configurations window, click on **`Modify options`** and select **`Environment variables`** to enable the section.
+
+    <p align="center">
+      <img src="README_images/ai_environment_variables.png" alt="Click Modify options" width="45%">
+      <img src="README_images/ai_enable.png" alt="Enable Environment variables" width="45%">
+    </p>
+    <p align="center"><em>Enabling the Environment variables section</em></p>
+
+6.  In the newly visible **Environment variables** field, click the folder icon next to *`Environment variables:`* and select the `env.properties` file you just created.
+
+    <p align="center">
+      <img src="README_images/ai_env_file.png" alt="Select env.properties file" width="60%">
+    </p>
+
+7.  Click **`Apply`**, and then **`OK`** to save the configuration.
+
+The application will now be able to load your API key on startup.
 ## AI System Overview
 
 ----------------------
