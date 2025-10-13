@@ -74,13 +74,20 @@ public class DriveView extends SplitPane {
                     } else {
                         // For actual drives and folders, show a clean path and, if it's a drive, the free space.
                         long totalSpace = file.getTotalSpace();
-                        String path = file.getAbsolutePath();
-                        String text = path;
-                        if (totalSpace > 0) {
-                            text = String.format("%s (%.1f GB Free)",
-                                    path, file.getUsableSpace() / 1e9);
+
+                        // For root drives, getName() is empty, so instead getPath() (e.g., "C:\").
+                        // For all other folders/files, getName() (e.g., "GamingRoot").
+                        String displayName = file.getName().isEmpty() ? file.getPath() : file.getName();
+
+                        String textToShow = displayName;
+
+                        // Only show free space if the file is a root drive (which has no parent).
+                        if (file.getParentFile() == null) {
+                            textToShow = String.format("%s (%.1f GB Free)",
+                                    displayName, file.getUsableSpace() / 1_000_000_000.0);
                         }
-                        setText(text);
+
+                        setText(textToShow);
                     }
                 }
             }

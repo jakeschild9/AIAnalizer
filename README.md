@@ -119,8 +119,7 @@ src/main/
 <details>
 <summary>Click to view the expanded project structure</summary>
 
-```
-src/main/
+```src/main/
 └── java/
     └── edu/missouristate/aianalyzer/
         ├── AiAnalyzerApplication.java           <- The main entry point; its main() method starts the entire application.
@@ -166,6 +165,7 @@ src/main/
             │       └── SuggestionsView.java     <- The screen for showing AI-powered suggestions.
             ├── JavaFxApplication.java           <- The entry point for the JavaFX UI; it starts Spring and manages the UI lifecycle.
             └── StageInitializer.java            <- Builds the main application window once Spring and JavaFX are ready.
+
 ```
 
 </details>

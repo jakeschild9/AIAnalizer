@@ -59,6 +59,18 @@
     -fx-opacity: 0.8;
 }
 
+/*
+ * TreeView Arrow Styling
+ * Makes the disclosure arrow visible on dark backgrounds.
+ */
+.tree-view .tree-cell .arrow {
+    -fx-background-color: -fx-secondary-text; /* Use the muted text color for the arrow */
+}
+
+.tree-view .tree-cell:selected .arrow {
+    -fx-background-color: -fx-primary-text;   /* Use the main text color (white) on selection */
+}
+
 /* Specific background colors for each category. */
 .category-photos { -fx-background-color: #4A90E2; }
 .category-videos { -fx-background-color: #2ecc71; }
