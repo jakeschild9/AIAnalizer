@@ -84,4 +84,15 @@ public class AiQuery {
                         null);
         return response.text();
     }
+
+    public String respondWithImageCategory(String file) {
+        GenerateContentResponse response =
+                client.models.generateContent(
+                        "gemini-2.5-flash",
+                        "Provide a one word response of Single, Two, or Group based on how many people are in" +
+                                "this photo; if there are no people respond in one word of what the photo is of: " +
+                                file,
+                        null);
+        return response.text();
+    }
 }
