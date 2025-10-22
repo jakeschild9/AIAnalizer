@@ -39,15 +39,45 @@ public class ErrorRetryWorker {
         try {
             Path p = Path.of(pathStr);
 
-            // Derive the required fileType
-            String fileType = Files.probeContentType(p);
-            if (fileType == null) fileType = ""; // ProcessFile handles routing
+            // Derive
+            String name = p.getFileName().toString();
+            String ext = "";
+            int i = name.lastIndexOf('.');
+            if (i >= 0 && i < name.length() - 1) {
+                ext = name.substring(i + 1).toLowerCase(Locale.ROOT); // e.g. "pdf"
+            }
 
-            // Use ACTIVE for retries
+            // try probe then map to extension
+            if (ext.isBlank()) {
+                String probed = null;
+                try {
+                    probed = Files.probeContentType(p);
+                } catch (Exception ignore) {
+                }
+                if (probed != null) {
+                    switch (probed.toLowerCase(Locale.ROOT)) {
+                        case "application/pdf" -> ext = "pdf";
+                        case "application/vnd.openxmlformats-officedocument.wordprocessingml.document" -> ext = "docx";
+                        case "application/msword" -> ext = "doc";
+                        case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" -> ext = "xlsx";
+                        case "application/vnd.ms-excel" -> ext = "xls";
+                        case "application/vnd.openxmlformats-officedocument.presentationml.presentation" ->
+                                ext = "pptx";
+                        case "application/vnd.ms-powerpoint" -> ext = "ppt";
+                        case "text/plain" -> ext = "txt";
+                        case "text/csv" -> ext = "csv";
+                        case "application/json" -> ext = "json";
+                        case "application/sql", "text/x-sql" -> ext = "sql";
+                        default -> ext = ""; // let ProcessFile handle empty
+                    }
+                }
+            }
+
+
             String result = processFile.processFileAIResponse(
                     p,
-                    fileType,
-                    FileInterpretation.SearchType.ACTIVE
+                    ext,
+                    edu.missouristate.aianalyzer.model.FileInterpretation.SearchType.ACTIVE
             );
 
             if (result == null) return false;
@@ -57,6 +87,7 @@ public class ErrorRetryWorker {
                 return false;
             }
             return true;
+
         } catch (Exception ex) {
             return false;
         }
