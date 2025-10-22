@@ -2,6 +2,7 @@ package edu.missouristate.aianalyzer.service.ai;
 
 
 import edu.missouristate.aianalyzer.model.FileInterpretation;
+import edu.missouristate.aianalyzer.service.database.ErrorLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
+import java.nio.file.Path;
 
 /**
  * This service is responsible for processing files and interacting with an AI service for analysis.
@@ -25,6 +27,7 @@ public class ProcessFile {
     private final AiQuery AiQuery;
     //File reading service
     private final ReadFile ReadFile;
+    private final ErrorLogService errorLogService;
     //Size of file
     static long fileSize;
     //Max file size before entering into chunk analysis (5MB)
