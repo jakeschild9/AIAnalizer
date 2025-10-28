@@ -1,9 +1,12 @@
 package edu.missouristate.aianalyzer.config;
 
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.genai.Client;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+
+import java.io.FileInputStream;
 
 /**
  * Spring configuration class responsible for creating and providing the Gemini AI client
@@ -20,6 +23,8 @@ public class AiClient {
      */
     @Bean
     public Client googleGenAiClient() throws Exception {
-        return Client.builder().build();
+        return Client.builder()
+                .vertexAI(true)
+                .build();
     }
 }

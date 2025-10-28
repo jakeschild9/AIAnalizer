@@ -48,3 +48,5 @@ aianalyzer.db
 /dist/
 /nbdist/
 /.nb-gradle/
+
+/basic-dispatch-476219-m5-1aa57365ca68.json

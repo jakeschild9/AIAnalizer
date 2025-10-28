@@ -1,6 +1,10 @@
 package edu.missouristate.aianalyzer.service.ai;
 
+import edu.missouristate.aianalyzer.model.FileInterpretation;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
@@ -13,16 +17,17 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static edu.missouristate.aianalyzer.service.ai.ReadImageService.changeExtension;
+import static edu.missouristate.aianalyzer.service.ai.ReadImageService.uploadJpgImage;
+import static edu.missouristate.aianalyzer.service.ai.UploadFileService.uploadObject;
+
 @Service
-public class ReadFile {
+public class ReadFileService {
 
     /**
      * Reads a file as a string by automatically selecting
@@ -33,7 +38,7 @@ public class ReadFile {
      * @return the full text content of the file
      * @throws IOException if the file type is unsupported or cannot be read
      */
-    public String readFileAsString(Path filePath, String fileType) throws IOException {
+    public static String readFileAsString(Path filePath, String fileType) throws IOException {
         Path path = Paths.get(filePath.toUri());
 
         return switch (fileType) {
@@ -45,6 +50,16 @@ public class ReadFile {
             case "pdf" -> readPdfAsString(path);
             case "sql" -> readSqlAsString(filePath);
             default -> throw new IOException("Unsupported file type: " + fileType);
+        };
+    }
+
+    public static String readDocumentType(String type) throws IOException {
+        return switch (type.toLowerCase()) {
+            case "txt", "md", "csv", "json", "sql" -> "text/plain";
+            case "doc", "docx", "xls", "xlsx", "ppt", "pptx" -> "text/plain";
+            case "pdf" -> "application/pdf";
+
+            default -> throw new IllegalArgumentException("Unknown document type: " + type);
         };
     }
 
